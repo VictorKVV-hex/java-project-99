@@ -4,11 +4,11 @@ ARG GRADLE_VERSION=8.7
 
 RUN apt-get update && apt-get install -yq make unzip
 
-WORKDIR /app
+WORKDIR /backend
 
-COPY /app .
+COPY ./ .
 
-RUN gradle installDist
+RUN ./gradlew --no-daemon build
 
 EXPOSE 8080
 
