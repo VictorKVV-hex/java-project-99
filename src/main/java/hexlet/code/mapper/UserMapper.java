@@ -24,4 +24,6 @@ public abstract class UserMapper {
     public abstract UserDTO map(User model);
 
     public abstract void update(UserUpdateDTO dto, @MappingTarget User model);
+
+    public abstract UserCreateDTO mapToCreateDto(User model);
 }
