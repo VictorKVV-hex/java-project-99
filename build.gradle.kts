@@ -29,6 +29,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	runtimeOnly("com.h2database:h2")
 	runtimeOnly("org.postgresql:postgresql:42.6.0")
+	implementation("net.datafaker:datafaker:2.0.1")
+	implementation("org.instancio:instancio-junit:3.3.0")
 	implementation("org.openapitools:jackson-databind-nullable:0.2.6")
 	implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 	implementation("org.openapitools:jackson-databind-nullable:0.2.6")
