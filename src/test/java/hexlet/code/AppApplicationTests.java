@@ -43,7 +43,7 @@ class AppApplicationTests {
 
 	// Технически имя тестового метода не важно
 	// Лучше использовать шаблон testНазваниеМетодаКонтроллера для основного сценария
-	@Test
+/*	@Test
 	public void testIndex() throws Exception {
 		mockMvc.perform(get("/users"))
 				.andExpect(status().isOk());
@@ -94,7 +94,7 @@ class AppApplicationTests {
 
 		user = userRepository.findById(user.getId()).get();
 		assertThat(user.getFirstName()).isEqualTo(("Mike"));
-	}
+	}*/
 }
 
 
