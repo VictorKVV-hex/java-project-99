@@ -1,5 +1,7 @@
 package hexlet.code.component;
 
+import hexlet.code.model.TaskStatus;
+import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
 import hexlet.code.service.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
@@ -9,13 +11,14 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import hexlet.code.model.User;
+import java.util.Arrays;
 
 
 @Component
 @AllArgsConstructor
 public class DataInitializer implements ApplicationRunner {
 
-
+    private final TaskStatusRepository taskStatusRepository;
     private final UserRepository userRepository;
     @Autowired
     private final CustomUserDetailsService userService;
@@ -32,7 +35,15 @@ public class DataInitializer implements ApplicationRunner {
             userService.createUser(userData);
         }
 
-
+        var statusNames = Arrays.asList("draft", "to_review", "to_be_fixed", "to_publish", "published");
+        var taskStatuses = statusNames.stream()
+                .map(name -> {
+                    var taskStatus = new TaskStatus();
+                    taskStatus.setSlug(name);
+                    taskStatus.setName(name);
+                    taskStatusRepository.save(taskStatus);
+                    return taskStatus;
+                }).toList();
 
     }
 
