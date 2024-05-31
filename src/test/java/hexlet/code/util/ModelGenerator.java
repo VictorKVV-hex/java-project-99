@@ -10,6 +10,7 @@ import org.instancio.Model;
 import org.instancio.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import hexlet.code.model.Task;
 
 @Getter
 @Component
@@ -17,6 +18,8 @@ public class ModelGenerator {
 
     private Model<TaskStatus> testStatus;
     private Model<User> testUser;
+    private Model<Task> testTask;
+
     @Autowired
     private Faker faker;
 
@@ -34,6 +37,16 @@ public class ModelGenerator {
                 .supply(Select.field(TaskStatus::getName), () -> faker.name().name())
                 .supply(Select.field(TaskStatus::getSlug), () -> faker.internet().slug())
                 .toModel();
+        testTask = Instancio.of(Task.class)
+                .ignore(Select.field(Task::getId))
+                .ignore(Select.field(Task::getTaskStatus))
+                .ignore(Select.field(Task::getAssignee))
+//
+                .supply(Select.field(Task::getName), () -> faker.lorem().word())
+                .supply(Select.field(Task::getIndex), () -> faker.number().positive())
+                .supply(Select.field(Task::getDescription), () -> faker.lorem().sentence())
+                .toModel();
     }
+
 
 }
