@@ -95,7 +95,7 @@ public class TaskStatusControllerTest {
         taskStatusRepository.save(testStatus);
 
         var data = new TaskStatusUpdateDto();
-        data.setName(JsonNullable.of("test_name"));
+        data.setName(JsonNullable.of("name"));
 
         var request = put("/api/task_statuses/" + testStatus.getId())
                 .with(token)
@@ -112,7 +112,6 @@ public class TaskStatusControllerTest {
     @Test
     public void testDestroy() throws Exception {
         taskStatusRepository.save(testStatus);
-
         var request = delete("/api/task_statuses/" + testStatus.getId()).with(token);
 
         mockMvc.perform(request)
