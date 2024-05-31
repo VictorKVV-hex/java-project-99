@@ -21,7 +21,8 @@ public class TaskStatusService {
     public List<TaskStatusDto> getAll() {
         var statuses = taskStatusRepository.findAll();
         var result = statuses.stream()
-                .map(taskStatusMapper::map)
+//                .map(taskStatusMapper::map)
+                .map(t -> taskStatusMapper.map(t))
                 .toList();
         return result;
     }
