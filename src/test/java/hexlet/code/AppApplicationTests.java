@@ -41,8 +41,7 @@ class AppApplicationTests {
 	void contextLoads() {
 	}
 
-	// Технически имя тестового метода не важно
-	// Лучше использовать шаблон testНазваниеМетодаКонтроллера для основного сценария
+// Тесты перенесены в UserControllerTes и больше тут не работают без аутентификации
 /*	@Test
 	public void testIndex() throws Exception {
 		mockMvc.perform(get("/users"))

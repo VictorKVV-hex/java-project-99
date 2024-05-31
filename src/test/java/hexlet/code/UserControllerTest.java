@@ -16,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
-
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -53,7 +52,7 @@ public class UserControllerTest {
     public void testIndex() throws Exception {
         userRepository.save(testUser);
 
-        var result = mockMvc.perform(get("/users").with(token))
+        var result = mockMvc.perform(get("/api/users").with(token))
                 .andExpect(status().isOk())
                 .andReturn();
         var body = result.getResponse().getContentAsString();
@@ -64,7 +63,7 @@ public class UserControllerTest {
     public void testShow() throws Exception {
         userRepository.save(testUser);
 
-        var request = get("/users/" + testUser.getId()).with(token);
+        var request = get("/api/users/" + testUser.getId()).with(token);
 
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -80,7 +79,7 @@ public class UserControllerTest {
     public void testCreate() throws Exception {
         var createDto = userMapper.mapToCreateDto(testUser);
 
-        var request = post("/users").with(token)
+        var request = post("/api/users").with(token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(createDto));
 
@@ -97,10 +96,10 @@ public class UserControllerTest {
         userRepository.save(testUser);
 
         var updateDto = new UserUpdateDTO();
-        updateDto.setFirstName(JsonNullable.of("Fake name"));
-        updateDto.setLastName(JsonNullable.of("Fake lastName"));
+        updateDto.setFirstName(JsonNullable.of("name1"));
+        updateDto.setLastName(JsonNullable.of("lastName1"));
 
-        var request = put("/users/" + testUser.getId())
+        var request = put("/api/users/" + testUser.getId())
                 .with(token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateDto));
@@ -118,7 +117,7 @@ public class UserControllerTest {
     public void testDelete() throws Exception {
         userRepository.save(testUser);
 
-        var request = delete("/users/" + testUser.getId()).with(token);
+        var request = delete("/api/users/" + testUser.getId()).with(token);
 
         mockMvc.perform(request)
                 .andExpect(status().isNoContent());
