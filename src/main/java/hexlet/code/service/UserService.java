@@ -46,6 +46,8 @@ public class UserService {
         return userMapper.map(user);
     }
     public void delete(Long id) {
+        var user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));
         userRepository.deleteById(id);
     }
 }

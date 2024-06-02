@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 //import jakarta.persistence.ManyToMany;
@@ -18,7 +19,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
-//import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Setter
@@ -47,4 +49,7 @@ public class Task implements BaseEntity {
 
     @CreatedDate
     private LocalDate createdAt;
+
+    @ManyToMany
+    private List<Label> labels = new ArrayList<>();;
 }

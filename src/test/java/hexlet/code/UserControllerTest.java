@@ -78,6 +78,7 @@ public class UserControllerTest {
     @Test
     public void testCreate() throws Exception {
         var createDto = userMapper.mapToCreateDto(testUser);
+//        var userCreateDTO = Instancio.of(modelsGenerator.getUserCreateDTOModel()).create();
 
         var request = post("/api/users").with(token)
                 .contentType(MediaType.APPLICATION_JSON)
