@@ -29,8 +29,7 @@ public class TaskController {
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-/*    ResponseEntity<List<TaskDto>> index(TaskParamsDto params) {
-        var tasks = taskService.getAll(params);*/
+
     ResponseEntity<List<TaskDto>> index() {
         var tasks = taskService.getAll();
         return ResponseEntity.ok()

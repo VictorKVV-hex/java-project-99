@@ -3,11 +3,11 @@ package hexlet.code;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.TaskUpdateDto;
 import hexlet.code.mapper.TaskMapper;
-//
+import hexlet.code.model.Label;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
-//
+import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.UserRepository;
@@ -21,6 +21,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
+import java.util.Set;
 
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,16 +49,17 @@ public class TaskControllerTest {
     private TaskStatusRepository taskStatusRepository;
     @Autowired
     private TaskMapper taskMapper;
-//
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private LabelRepository labelRepository;
     @Autowired
     private ModelGenerator modelGenerator;
     private JwtRequestPostProcessor token;
     private User testUser;
     private Task testTask;
     private TaskStatus testStatus;
-//
+    private Label testLabel;
 
     @BeforeEach
     public void setUp() {
@@ -65,12 +69,13 @@ public class TaskControllerTest {
         testStatus = Instancio.of(modelGenerator.getTestStatus()).create();
         taskStatusRepository.save(testStatus);
 
-//
+        testLabel = Instancio.of(modelGenerator.getTestLabel()).create();
+        labelRepository.save(testLabel);
 
         testTask = Instancio.of(modelGenerator.getTestTask()).create();
         testTask.setTaskStatus(testStatus);
         testTask.setAssignee(testUser);
-//
+        testTask.setLabels(Set.of(testLabel));
         taskRepository.save(testTask);
 
         token = jwt().jwt(builder -> builder.subject(testUser.getEmail()));
@@ -107,7 +112,7 @@ public class TaskControllerTest {
         var newTask = Instancio.of(modelGenerator.getTestTask()).create();
         newTask.setTaskStatus(testStatus);
         newTask.setAssignee(testUser);
-//
+        newTask.setLabels(Set.of(testLabel));
         var dto = taskMapper.mapToCreateDto(newTask);
 
         var request = post("/api/tasks").with(token)
@@ -121,6 +126,7 @@ public class TaskControllerTest {
         assertNotNull(task);
         assertThat(task.getIndex()).isEqualTo(testTask.getIndex());
         assertThat(task.getAssignee().getId()).isEqualTo(testTask.getAssignee().getId());
+        assertThat(task.getDescription()).isEqualTo(testTask.getDescription());
         assertThat(task.getTaskStatus().getSlug()).isEqualTo(testTask.getTaskStatus().getSlug());
         assertThat(task.getName()).isEqualTo(testTask.getName());
     }

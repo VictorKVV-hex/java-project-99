@@ -50,6 +50,10 @@ public class ModelGenerator {
                 .supply(Select.field(Task::getIndex), () -> faker.number().positive())
                 .supply(Select.field(Task::getDescription), () -> faker.lorem().sentence())
                 .toModel();
+        testLabel = Instancio.of(Label.class)
+                .ignore(Select.field(Label::getId))
+                .supply(Select.field(Label::getName), () -> faker.lorem().characters(3, 1000))
+                .toModel();
 
 
         userCreateDTOModel = Instancio.of(UserCreateDTO.class)

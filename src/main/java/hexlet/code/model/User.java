@@ -1,6 +1,4 @@
-
 package hexlet.code.model;
-
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -55,6 +53,7 @@ public class User implements UserDetails, BaseEntity {
 
     @LastModifiedDate
     private LocalDate updatedAt;
+
 
     @OneToMany(mappedBy = "assignee", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private List<Task> tasks = new ArrayList<>();

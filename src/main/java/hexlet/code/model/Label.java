@@ -18,8 +18,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -40,5 +40,5 @@ public class Label implements BaseEntity {
     private LocalDate createdAt;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "labels", cascade = CascadeType.MERGE)
-    private List<Task> tasks = new ArrayList<>();;
+    private Set<Task> tasks;
 }
