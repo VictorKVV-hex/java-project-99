@@ -39,8 +39,8 @@ public class UserControllerTest {
     private UserRepository userRepository;
     @Autowired
     private ModelGenerator modelsGenerator;
-    private User testUser;
     private SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor token;
+    private User testUser;
 
     @BeforeEach
     public void setUser() {
@@ -51,7 +51,6 @@ public class UserControllerTest {
     @Test
     public void testIndex() throws Exception {
         userRepository.save(testUser);
-
         var result = mockMvc.perform(get("/api/users").with(token))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -62,7 +61,6 @@ public class UserControllerTest {
     @Test
     public void testShow() throws Exception {
         userRepository.save(testUser);
-
         var request = get("/api/users/" + testUser.getId()).with(token);
 
         var result = mockMvc.perform(request)
@@ -95,7 +93,6 @@ public class UserControllerTest {
     @Test
     public void testUpdate() throws Exception {
         userRepository.save(testUser);
-
         var updateDto = new UserUpdateDTO();
         updateDto.setFirstName(JsonNullable.of("name1"));
         updateDto.setLastName(JsonNullable.of("lastName1"));
@@ -109,15 +106,14 @@ public class UserControllerTest {
                 .andExpect(status().isOk());
 
         var user = userRepository.findById(testUser.getId()).get();
-
         assertNotNull(user);
         assertThat(user.getFirstName()).isEqualTo(updateDto.getFirstName().get());
         assertThat(user.getLastName()).isEqualTo(updateDto.getLastName().get());
     }
+
     @Test
     public void testDelete() throws Exception {
         userRepository.save(testUser);
-
         var request = delete("/api/users/" + testUser.getId()).with(token);
 
         mockMvc.perform(request)
@@ -131,13 +127,11 @@ public class UserControllerTest {
         userRepository.save(testUser);
         var result = mockMvc.perform(get("/users"))
                 .andExpect(status().isUnauthorized());
-
     }
 
     @Test
     public void testShowWithoutAuth() throws Exception {
         userRepository.save(testUser);
-
         var request = get("/users/{id}", testUser.getId());
         var result = mockMvc.perform(request)
                 .andExpect(status().isUnauthorized());

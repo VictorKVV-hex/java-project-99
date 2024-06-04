@@ -55,7 +55,6 @@ public class LabelControllerTests {
     @Test
     public void testIndex() throws Exception {
         labelRepository.save(testLabel);
-
         var result = mockMvc.perform(MockMvcRequestBuilders.get("/api/labels").with(token))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -66,7 +65,6 @@ public class LabelControllerTests {
     @Test
     public void testShow() throws Exception {
         labelRepository.save(testLabel);
-
         var request = get("/api/labels/" + testLabel.getId()).with(jwt());
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -79,7 +77,6 @@ public class LabelControllerTests {
     @Test
     public void testCreate() throws Exception {
         var dto = labelMapper.map(testLabel);
-
         var request = post("/api/labels").with(token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto));
@@ -95,9 +92,8 @@ public class LabelControllerTests {
     @Test
     public void testUpdate() throws Exception {
         labelRepository.save(testLabel);
-
         var data = new LabelUpdateDto();
-        data.setName(JsonNullable.of("test_name"));
+        data.setName(JsonNullable.of("name1"));
 
         var request = put("/api/labels/" + testLabel.getId())
                 .with(token)
@@ -115,7 +111,6 @@ public class LabelControllerTests {
     @Test
     public void testDestroy() throws Exception {
         labelRepository.save(testLabel);
-
         var request = delete("/api/labels/" + testLabel.getId()).with(jwt());
 
         mockMvc.perform(request)

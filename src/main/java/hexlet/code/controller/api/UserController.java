@@ -25,7 +25,7 @@ import java.util.List;
 @RequestMapping("/api/users")
 @AllArgsConstructor
 public class UserController {
-    private static final String ONLY_OWNER_BY_ID = """
+    private static final String OWNER_BY_ID = """
             @userRepository.findById(#id).get().getEmail() == authentication.getName()
         """;
     private final UserService userService;
@@ -55,13 +55,13 @@ public class UserController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize(ONLY_OWNER_BY_ID)
+    @PreAuthorize(OWNER_BY_ID)
     public UserDTO update(@Valid @RequestBody UserUpdateDTO dto, @PathVariable Long id) {
         return userService.update(dto, id);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize(ONLY_OWNER_BY_ID)
+    @PreAuthorize(OWNER_BY_ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void destroy(@PathVariable Long id) {
         userService.delete(id);

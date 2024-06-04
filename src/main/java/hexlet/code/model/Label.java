@@ -31,9 +31,9 @@ public class Label implements BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+//
     @NotBlank
     @Size(min = 3, max = 1000)
-//
     private String name;
 
     @CreatedDate
