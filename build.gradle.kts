@@ -6,6 +6,7 @@ plugins {
 	id("org.springframework.boot") version "3.2.7-SNAPSHOT"
 	id("io.spring.dependency-management") version "1.1.5"
 	id("io.freefair.lombok") version "8.6"
+	id("io.sentry.jvm.gradle") version "4.7.0"
 }
 
 group = "hexlet.code"
@@ -40,21 +41,6 @@ dependencies {
 	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-/*	implementation("org.springframework.boot:spring-boot-starter")
-	implementation("org.springframework.boot:spring-boot-starter-web")
-//	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("org.springframework.boot:spring-boot-devtools")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.openapitools:jackson-databind-nullable:0.2.6")
-	implementation("net.datafaker:datafaker:2.0.1")
-	implementation("org.instancio:instancio-junit:3.3.0")
-	implementation("org.mapstruct:mapstruct:1.5.5.Final")
-//	implementation("org.springframework.boot:spring-boot-starter-security")
-//	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.4.0")
-	implementation("org.springdoc:springdoc-openapi-starter-webflux-api:2.4.0")
-
-	annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")*/
 
 	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation(platform("org.junit:junit-bom:5.10.0"))
@@ -80,4 +66,19 @@ tasks.jacocoTestReport {
 	reports {
 		xml.required = true
 	}
+}
+
+sentry {
+	// Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
+	// This enables source context, allowing you to see your source
+	// code as part of your stack traces in Sentry.
+	includeSourceContext = true
+
+	org = "kvv"
+	projectName = "java-spring-boot"
+	authToken = System.getenv("SENTRY_AUTH_TOKEN")
+}
+
+tasks.sentryBundleSourcesJava {
+	enabled = System.getenv("SENTRY_AUTH_TOKEN") != null
 }
