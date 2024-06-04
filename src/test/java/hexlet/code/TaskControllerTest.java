@@ -91,8 +91,7 @@ public class TaskControllerTest {
 
     @Test
     public void testShow() throws Exception {
-        // taskRepository.save(testTask);
-
+         taskRepository.save(testTask);
         var request = get("/api/tasks/" + testTask.getId()).with(token);
         var result = mockMvc.perform(request)
                 .andExpect(status().isOk())
@@ -132,8 +131,7 @@ public class TaskControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        //taskRepository.save(testTask);
-
+        taskRepository.save(testTask);
         var data = new TaskUpdateDto();
         data.setTitle(JsonNullable.of("title1"));
         data.setDescription(JsonNullable.of("description1"));
@@ -154,13 +152,11 @@ public class TaskControllerTest {
 
     @Test
     public void testDestroy() throws Exception {
-        // taskRepository.save(testTask);
-
+        taskRepository.save(testTask);
         var request = delete("/api/tasks/" + testTask.getId()).with(token);
 
         mockMvc.perform(request)
                 .andExpect(status().isNoContent());
-
         assertThat(taskRepository.existsById(testTask.getId())).isEqualTo(false);
     }
 }
