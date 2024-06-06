@@ -40,7 +40,7 @@ public class TaskController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    ResponseEntity<TaskDto> show(@PathVariable long id) {
+    public ResponseEntity<TaskDto> show(@PathVariable long id) {
         var task = taskService.findById(id);
         return ResponseEntity.ok()
                 .body(task);
