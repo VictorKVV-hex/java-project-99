@@ -37,7 +37,7 @@ public class TaskController {
                 .header("X-Total-Count", String.valueOf(tasks.size()))
                 .body(tasks);
     }*/
-    ResponseEntity<List<TaskDto>> index(TaskParamsDto params) {
+    public ResponseEntity<List<TaskDto>> index(TaskParamsDto params) {
         var tasks = taskService.getAll(params);
         return ResponseEntity.ok()
                 .header("X-Total-Count", String.valueOf(tasks.size()))
