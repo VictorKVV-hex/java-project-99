@@ -26,15 +26,6 @@ public class TaskService {
     private final TaskStatusRepository taskStatusRepository;
     private final UserRepository userRepository;
 
-/*    public List<TaskDto> getAll() {
-
-        var tasks = taskRepository.findAll();
-        var result = tasks.stream()
-                .map(t -> taskMapper.map(t))
-                .toList();
-        return result;
-    }*/
-
     public List<TaskDto> getAll(TaskParamsDto params) {
         var specification = taskSpecification.build(params);
         var tasks = taskRepository.findAll(specification);
