@@ -21,7 +21,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 //import java.util.HashSet;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -50,11 +53,39 @@ public class TaskService {
         return result;
     }
 
-    public TaskDto create(TaskCreateDto dto) {
+/*    public TaskDto create(TaskCreateDto dto) {
         var task = taskMapper.map(dto);
         taskRepository.save(task);
         var result = taskMapper.map(task);
         return result;
+    }*/
+
+    public TaskDto create(TaskCreateDto taskData) {
+        var task = taskMapper.map(taskData);
+
+        var assigneeId = taskData.getAssignee_id();
+
+//       if (assigneeId != null) {
+//         if(!Objects.isNull(assigneeId)){
+        if (assigneeId != 0L) {
+            var assignee = userRepository.findById(assigneeId).orElse(null);
+            task.setAssignee(assignee);
+        }
+
+        var statusSlug = taskData.getStatus();
+        var taskStatus = taskStatusRepository.findBySlug(statusSlug).orElse(null);
+        task.setTaskStatus(taskStatus);
+
+
+        var taskLabelIds = taskData.getTaskLabelIds();
+        if (taskLabelIds != null) {
+        var labels = new HashSet<>(labelRepository.findByIdIn(taskLabelIds).orElse(new HashSet<>()));
+        task.setLabels(labels);
+        }
+
+        taskRepository.save(task);
+        var taskDTO = taskMapper.map(task);
+        return taskDTO;
     }
 
     public TaskDto update(TaskUpdateDto dto, Long id) {

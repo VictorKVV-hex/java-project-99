@@ -69,7 +69,7 @@ public abstract class TaskMapper {
     }
 
     public Set<Long> toDto(Set<Label> labels) {
-        return labels.stream()
+        return labels == null ? null : labels.stream()
                 .map(Label::getId)
                 .collect(Collectors.toSet());
     }
