@@ -13,7 +13,7 @@ import java.util.Set;
 public class TaskCreateDto {
     private int index;
 
-    @JsonProperty("assignee_id")
+//    @JsonProperty("assignee_id")
     private long assignee_id;
 
     @NotNull

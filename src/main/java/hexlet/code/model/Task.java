@@ -1,5 +1,6 @@
 package hexlet.code.model;
 
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
@@ -37,6 +38,7 @@ public class Task implements BaseEntity {
 
     private int index;
     private String description;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     private User assignee;
 
