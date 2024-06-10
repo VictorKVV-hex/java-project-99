@@ -77,10 +77,10 @@ public class TaskService {
 
 
         var taskLabelIds = taskData.getTaskLabelIds();
-        if (taskLabelIds != null) {
+//        if (taskLabelIds != null) {
         var labels = new HashSet<>(labelRepository.findByIdIn(taskLabelIds).orElse(new HashSet<>()));
         task.setLabels(labels);
-        }
+//        }
 
         taskRepository.save(task);
         var taskDTO = taskMapper.map(task);
