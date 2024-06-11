@@ -161,4 +161,51 @@ public class TaskControllerTest {
 
         assertThat(taskRepository.existsById(testTask.getId())).isEqualTo(false);
     }
+
+/*    @Test
+    public void testUpdate1() throws Exception {
+*//*        TestUtils.saveTask(mockMvc, testTask);
+        var task = TestUtils.getTaskByName(mockMvc, testTask.getName());
+        var data = new HashMap<String, String>();
+        var name = "New Task Name";
+        data.put("title", name);*//*
+
+        var data = new TaskUpdateDto();
+        data.setTitle(JsonNullable.of("New Task Name"));
+
+        var request = put("/api/tasks/" + testTask.getId()).with(token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(data));
+        var result = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andReturn();
+        var body = result.getResponse().getContentAsString();
+        assertThatJson(body).and(
+                v -> v.node("content").isEqualTo(testTask.getDescription()),
+                v -> v.node("title").isEqualTo(data.getTitle()),
+//                v -> v.node("status").isEqualTo(testTask.getTaskStatus()),
+                v -> v.node("taskLabelIds").isEqualTo(testTask.getLabels()) // у тебя падает вот тут
+        );
+*//*        var request = put("/api/tasks/{id}", task.getId()).with(jwt())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(data));
+        var result = mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andReturn();
+        var body = result.getResponse().getContentAsString();
+
+        assertThatJson(body).and(
+                v -> v.node("content").isEqualTo(testTask.getDescription()),
+                v -> v.node("title").isEqualTo(data.get("title")),
+                v -> v.node("status").isEqualTo(testTask.getTaskStatus()),
+                v -> v.node("taskLabelIds").isEqualTo(testTask.getLabels()) // у тебя падает вот тут
+        );
+
+        var actualTask = TestUtils.getTaskByName(mockMvc, name);
+
+        assertEquals(name, actualTask.getName());
+        assertEquals(testTask.getDescription(), actualTask.getDescription());
+        assertEquals(testTask.getTaskStatus(), actualTask.getTaskStatus());
+        assertEquals(testTask.getLabels(), actualTask.getLabels());*//*
+    }*/
 }
