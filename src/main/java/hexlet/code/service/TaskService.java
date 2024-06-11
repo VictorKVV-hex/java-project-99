@@ -62,7 +62,7 @@ public class TaskService {
         return result;
     }*/
 
-    public TaskDto create(TaskCreateDto taskData) {
+/*    public TaskDto create(TaskCreateDto taskData) {
         var task = taskMapper.map(taskData);
 
         var assigneeId = taskData.getAssignee_id();
@@ -88,6 +88,31 @@ public class TaskService {
         taskRepository.save(task);
         var taskDTO = taskMapper.map(task);
         return taskDTO;
+    }*/
+
+    public TaskDto create(TaskCreateDto dto) {
+        var task = taskMapper.map(dto);
+
+        User assignee = null;
+        if (dto.getAssignee_id() != 0L) {
+            assignee = userRepository.findById(dto.getAssignee_id()).orElse(null);
+        }
+        task.setAssignee(assignee);
+
+        TaskStatus taskStatus = null;
+        if (dto.getStatus() != null) {
+            taskStatus = taskStatusRepository.findBySlug(dto.getStatus()).orElse(null);
+        }
+        task.setTaskStatus(taskStatus);
+
+        Set<Label> labelSet = null;
+        if (dto.getTaskLabelIds() != null) {
+            labelSet = labelRepository.findByIdIn((dto.getTaskLabelIds())).orElse(null);
+        }
+        task.setLabels(labelSet);
+
+        taskRepository.save(task);
+        return taskMapper.map(task);
     }
 
 /*    public TaskDto update(TaskUpdateDto dto, Long id) {
