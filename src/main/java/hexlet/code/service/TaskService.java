@@ -9,7 +9,7 @@ import hexlet.code.exception.ResourceNotFoundException;
 import hexlet.code.mapper.TaskMapper;
 //import hexlet.code.model.Label;
 import hexlet.code.model.Label;
-import hexlet.code.model.Task;
+//import hexlet.code.model.Task;
 //import hexlet.code.model.TaskStatus;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
@@ -123,7 +123,7 @@ public class TaskService {
 //        task.setLabels(labels != null ? new HashSet<>(labels) : new HashSet<>());
     }*/
 
-    public TaskDto update( TaskUpdateDto data, Long taskId) {
+    public TaskDto update(TaskUpdateDto data, Long taskId) {
         var task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new ResourceNotFoundException("Task with id: " + taskId + " not found."));
 
