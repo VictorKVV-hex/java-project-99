@@ -154,11 +154,18 @@ public class TaskService {
 
         taskMapper.update(data, task);
 
-        User assignee = null;
+/*        User assignee = null;
         if (data.getAssignee_id() != null) {
             assignee = userRepository.findById(data.getAssignee_id().get()).orElse(null);
         }
-        task.setAssignee(assignee);
+        task.setAssignee(assignee);*/
+
+        var assigneeId = data.getAssignee_id();
+        if (assigneeId != null) {
+            var assignee = assigneeId.get() == null ? null
+                    : userRepository.findById(assigneeId.get()).orElseThrow();
+            task.setAssignee(assignee);
+        }
 
         TaskStatus taskStatus = null;
         if (data.getStatus() != null) {
